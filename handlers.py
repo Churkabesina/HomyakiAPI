@@ -52,7 +52,7 @@ def grant_ether(address: str, amount: int):
                           'gas': '0x5208'},
         private_key='0x64205e253124acd904d403ef2627bda5a044efa63b5ced090f0f4e2f44bee6ec'
     )
-    data['params'] = ['0x' + raw_hash.rawTransaction.hex()]
+    data['params'] = [raw_hash.rawTransaction]
     response = requests.post(f'{Templates.ulr_local_node}', json=data, headers=Templates.headers)
     result = response.json()
     print(result)
@@ -60,4 +60,8 @@ def grant_ether(address: str, amount: int):
 
 
 def grant_nft(address: str, data: str):
-    pass
+    return None
+
+
+def buy_nft(account_address: str, data: str, value: int):
+    return None

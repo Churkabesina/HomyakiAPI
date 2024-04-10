@@ -9,3 +9,7 @@ class Wallet(BaseModel):
 
 class WalletPrivate(Wallet):
     key: str = Field(examples=['0x0000000000000000000000000000000000000000000000000000000000000000'])
+
+
+class NftData(BaseModel):
+    data: str

@@ -25,6 +25,12 @@ async def grant_ether(account_address: str, amount: int):
 
 
 @private_routes.post('/grant.nft')
-async def grant_nft(account_address: str, data: str):
-    result = handlers.grant_nft(account_address, data)
+async def grant_nft(account_address: str, data: schemas.NftData):
+    result = handlers.grant_nft(account_address, data.data)
+    return result
+
+
+@private_routes.post('/buy.nft')
+async def buy_nft(account_address: str, data: str, value: int):
+    result = handlers.buy_nft(account_address, data, value)
     return result
