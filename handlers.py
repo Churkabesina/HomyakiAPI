@@ -71,6 +71,6 @@ def mint_ye_play_nft(address: str, data: str):
 def mint_result_storage_nft(address: str, data: int):
     data = str(data)
     encoded = ethereum.encode_function_call('mint_nft(address,string)', [address, data])
-    raw = ethereum.sign_smart_contract_txn(to=ethereum.ye_play_address, data=encoded, gas='0x200B20')
+    raw = ethereum.sign_smart_contract_txn(to=ethereum.result_storage_address, data=encoded, gas='0x200B20')
     res = ethereum.send_raw_txn(raw)
     return res
