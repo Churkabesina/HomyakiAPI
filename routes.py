@@ -24,13 +24,13 @@ async def grant_ether(account_address: str, amount: int):
     return result
 
 
-@private_routes.post('/grant.nft')
-async def grant_nft(account_address: str, data: schemas.NftData):
-    result = handlers.grant_nft(account_address, data.data)
+@private_routes.post('/mint.result_storage_nft')
+async def mint_result_storage_nft(account_address: str, data: schemas.ResultNftData):
+    result = handlers.mint_result_storage_nft(account_address, data.data)
     return result
 
 
-@private_routes.post('/buy.nft')
-async def buy_nft(account_address: str, data: str, value: int):
-    result = handlers.buy_nft(account_address, data, value)
+@private_routes.post('/mint.ye_play_nft')
+async def mint_ye_play_nft(account_address: str, data: schemas.YEplayNftData):
+    result = handlers.mint_ye_play_nft(account_address, data.data)
     return result

@@ -11,5 +11,9 @@ class WalletPrivate(Wallet):
     key: str = Field(examples=['0x0000000000000000000000000000000000000000000000000000000000000000'])
 
 
-class NftData(BaseModel):
+class YEplayNftData(BaseModel):
     data: str
+
+
+class ResultNftData(BaseModel):
+    data: int
