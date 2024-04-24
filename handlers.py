@@ -56,13 +56,14 @@ def grant_ether(address: str, amount: int):
     )
     data['params'] = [raw_hash.rawTransaction.hex()]
     requests.post(f'{Templates.ulr_local_node}', json=data, headers=Templates.headers)
-    balance = get_account_balance(address)
-    db.core.update_account_balance(address, balance)
+    old_balance = get_account_balance(address)
+    new_balance = old_balance + amount
+    db.core.update_account_balance(address, new_balance)
     account_id = db.core.get_id_by_address(address)
     res = {
         'id': account_id,
         'address': address,
-        'balance': balance
+        'balance': new_balance
     }
     return res
 
