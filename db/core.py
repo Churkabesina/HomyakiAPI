@@ -21,7 +21,7 @@ def insert_wallet(address: str, private_key: str):
 
 
 def update_account_balance(address: str, new_balance: int):
-    stmt = update(models.wallet).where(models.wallet.address == address).values({'balance': new_balance})
+    stmt = update(models.wallet).where(models.wallet.c.address == address).values({'balance': new_balance})
     with engine.connect() as conn:
         res = conn.execute(stmt)
         conn.commit()
