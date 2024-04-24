@@ -1,6 +1,14 @@
 import requests
 
-address = '0x3A63c4477f84Cc60A32ad28C8098cA12B1eC2bfa'
-res = requests.get(f'http://localhost:8000/api/account.balance?account_address={address}', headers={'token': '12345'})
+headers = {
+    'accept': 'application/json',
+    'Content-Type': 'application/json'
+}
+
+data = {
+    'data': '123'
+}
+
+res = requests.post(f'http://185.137.233.141:25363/api/mint.ye_play_nft?account_address=0x47D383466926400342991b67804Cf6d0e57cc201', json=data, headers=headers)
 print(res.status_code)
 print(res.json())

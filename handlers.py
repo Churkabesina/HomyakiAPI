@@ -48,17 +48,22 @@ def grant_ether(address: str, amount: int):
     raw_hash = ethereum.w3.eth.account.sign_transaction(
         transaction_dict={'from': '0x8F15C8eDb2974485957909E6fEEfc53972664cEC',
                           'to': address,
-                          'value': ethereum.w3.to_hex(amount),
+                          'value': ethereum.w3.to_hex(amount).hex(),
                           'nonce': ethereum.w3.eth.get_transaction_count(ethereum.w3.to_checksum_address('0x8F15C8eDb2974485957909E6fEEfc53972664cEC'), 'latest'),
                           'gasPrice': '0x0',
                           'gas': '0x5208'},
         private_key='0x64205e253124acd904d403ef2627bda5a044efa63b5ced090f0f4e2f44bee6ec'
     )
-    data['params'] = [raw_hash.rawTransaction]
-    response = requests.post(f'{Templates.ulr_local_node}', json=data, headers=Templates.headers)
-    result = response.json()
-    print(result)
-    return result
+    data['params'] = [raw_hash.rawTransaction.hex()]
+    requests.post(f'{Templates.ulr_local_node}', json=data, headers=Templates.headers)
+    balance = get_account_balance(address)
+    db_update = db.core.update_account_balance(address, balance)
+    res = {
+        'id': db_update,
+        'address': address,
+        'balance': balance
+    }
+    return res
 
 
 def mint_ye_play_nft(address: str, data: str):

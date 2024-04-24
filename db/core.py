@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, insert
+from sqlalchemy import create_engine, insert, update
 from . import models
 
 engine = create_engine('sqlite+pysqlite:///wallets.db', echo=True)
@@ -18,3 +18,12 @@ def insert_wallet(address: str, private_key: str):
         res = conn.execute(stmt)
         conn.commit()
         return res.lastrowid
+
+
+def update_account_balance(address: str, new_balance: int):
+    stmt = update(models.wallet).values({'balance': new_balance}).where(models.wallet.address == address)
+    with engine.connect() as conn:
+        res = conn.execute(stmt)
+        conn.commit()
+        id = res.first()[0]
+        return id
