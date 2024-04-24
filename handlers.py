@@ -48,7 +48,7 @@ def grant_ether(address: str, amount: int):
     raw_hash = ethereum.w3.eth.account.sign_transaction(
         transaction_dict={'from': '0x8F15C8eDb2974485957909E6fEEfc53972664cEC',
                           'to': address,
-                          'value': ethereum.w3.to_hex(amount).hex(),
+                          'value': ethereum.w3.to_hex(amount),
                           'nonce': ethereum.w3.eth.get_transaction_count(ethereum.w3.to_checksum_address('0x8F15C8eDb2974485957909E6fEEfc53972664cEC'), 'latest'),
                           'gasPrice': '0x0',
                           'gas': '0x5208'},
