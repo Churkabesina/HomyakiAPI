@@ -71,7 +71,7 @@ async def get_nft_by_id_results(nft_id: int):
     return result
 
 
-@private_routes.get('/txn_data')
-async def get_txn_data(txn_hash: str):
-    result = handlers.get_txn_data(txn_hash)
+@private_routes.get('/txn_receipt')
+async def get_txn_receipt(txn_hash: str):
+    result = handlers.get_txn_receipt(txn_hash)
     return result
