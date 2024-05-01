@@ -120,6 +120,6 @@ def get_last_minted_nft_results():
 
 
 def get_nft_by_id_results(nft_id: int):
-    encoded = ethereum.encode_function_call('get_nft_by_id(nft_id)', [nft_id])
+    encoded = ethereum.encode_function_call('get_nft_by_id(uint256)', [nft_id])
     res = ethereum.call_smart_contract(to=ethereum.result_storage_address, data=encoded)
     return ethereum.w3.to_int(res)
