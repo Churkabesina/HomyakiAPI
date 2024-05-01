@@ -1,5 +1,4 @@
 import requests
-import web3
 import db
 import ethereum_api
 
@@ -83,7 +82,7 @@ def mint_result_storage_nft(address: str, data: int):
 
 
 def get_account_nft_storage(address: str):
-    encoded = ethereum.encode_function_call('get_account_nft_storage()', [address])
+    encoded = ethereum.encode_function_call('get_account_nft_storage(address)', [address])
     res = ethereum.call_smart_contract(to=ethereum.result_storage_address, data=encoded)
     return res
 
@@ -98,7 +97,7 @@ def withdraw_nft_value(address: str, nft_id: int):
 def get_results_contract_balance():
     encoded = ethereum.encode_function_call('get_contract_balance()')
     res = ethereum.call_smart_contract(to=ethereum.result_storage_address, data=encoded)
-    return res
+    return ethereum.w3.to_int(res)
 
 
 def refill_contract_balance(value: int):

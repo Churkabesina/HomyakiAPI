@@ -42,12 +42,12 @@ async def mint_ye_play_nft(account_address: str, data: schemas.YEplayNftData):
 
 
 @private_routes.post('/contract.withdraw_nft_value')
-async def withdraw_nft_value(address: str, nft_id: int):
-    result = handlers.withdraw_nft_value(address, nft_id)
+async def withdraw_nft_value(account_address: str, nft_id: int):
+    result = handlers.withdraw_nft_value(account_address, nft_id)
     return result
 
 
-@private_routes.post('/contract.balance')
+@private_routes.get('/contract.balance')
 async def get_results_contract_balance():
     result = handlers.get_results_contract_balance()
     return result
