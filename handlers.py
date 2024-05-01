@@ -2,6 +2,7 @@ import requests
 import db
 import ethereum_api
 from eth_abi import decode as abi_decode
+import json
 
 
 class Templates:
@@ -127,4 +128,4 @@ def get_nft_by_id_results(nft_id: int):
 
 def get_txn_info(txn_hash: str):
     res = ethereum.w3.eth.get_transaction(txn_hash)
-    return ethereum.w3.to_json(res)
+    return json.loads(ethereum.w3.to_json(res))
