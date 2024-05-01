@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, types
 import handlers
 import schemas
 
@@ -71,7 +71,7 @@ async def get_nft_by_id_results(nft_id: int):
     return result
 
 
-@private_routes.get('/txn_info')
+@private_routes.get('/txn_info', response_model=types.Dict)
 async def get_txn_info(txn_hash: str):
     result = handlers.get_txn_info(txn_hash)
     return result
