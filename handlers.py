@@ -127,5 +127,4 @@ def get_nft_by_id_results(nft_id: int):
 
 def get_txn_info(txn_hash: str):
     res = ethereum.w3.eth.get_transaction(txn_hash)
-    print(res)
-    return None
+    return ethereum.w3.to_json(res)
