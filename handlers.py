@@ -76,8 +76,34 @@ def mint_ye_play_nft(address: str, data: str):
 
 
 def mint_result_storage_nft(address: str, data: int):
-    data = str(data)
-    encoded = ethereum.encode_function_call('mint_nft(address,string)', [address, data])
+    encoded = ethereum.encode_function_call('mint_nft(address,uint256)', [address, data])
     raw = ethereum.sign_smart_contract_txn(to=ethereum.result_storage_address, data=encoded, gas='0x200B20')
+    res = ethereum.send_raw_txn(raw)
+    return res
+
+
+def get_account_nft_storage(address: str):
+    encoded = ethereum.encode_function_call('get_account_nft_storage()', [address])
+    res = ethereum.call_smart_contract(to=ethereum.result_storage_address, data=encoded)
+    return res
+
+
+def withdraw_nft_value(address: str, nft_id: int):
+    encoded = ethereum.encode_function_call('withdraw_nft_value(address,uint256)', [address, nft_id])
+    raw = ethereum.sign_smart_contract_txn(to=ethereum.result_storage_address, data=encoded, gas='0x200B20')
+    res = ethereum.send_raw_txn(raw)
+    return res
+
+
+def get_results_contract_balance():
+    encoded = ethereum.encode_function_call('get_contract_balance()')
+    res = ethereum.call_smart_contract(to=ethereum.result_storage_address, data=encoded)
+    return res
+
+
+def refill_contract_balance(value: int):
+    value = ethereum.w3.toHex(value)
+    encoded = ethereum.encode_function_call('refill_contract_balance()')
+    raw = ethereum.sign_smart_contract_txn(to=ethereum.result_storage_address, data=encoded, value=value)
     res = ethereum.send_raw_txn(raw)
     return res
