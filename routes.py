@@ -17,7 +17,7 @@ async def create_account():
     return result
 
 
-@private_routes.post('/account.nft_storage')
+@private_routes.get('/account.nft_storage')
 async def get_account_nft_storage(account_address: str):
     result = handlers.get_account_nft_storage(account_address)
     return result
