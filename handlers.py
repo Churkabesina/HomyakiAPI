@@ -85,8 +85,11 @@ def mint_result_storage_nft(address: str, data: int):
 def get_account_nft_storage(address: str):
     encoded = ethereum.encode_function_call('get_account_nft_storage(address)', [address])
     res = ethereum.call_smart_contract(to=ethereum.result_storage_address, data=encoded)
-    print(abi_decode(['uint256[]'], res))
-    return abi_decode(['uint256[]'], res)
+    res = {
+        'account': address,
+        'storage': abi_decode(['uint256[]'], res)[0]
+    }
+    return res
 
 
 def withdraw_nft_value(address: str, nft_id: int):
