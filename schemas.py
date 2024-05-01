@@ -17,3 +17,8 @@ class YEplayNftData(BaseModel):
 
 class ResultNftData(BaseModel):
     data: int
+
+
+class NftStorage(BaseModel):
+    account: str
+    storage: list[int]
