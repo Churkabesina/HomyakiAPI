@@ -123,3 +123,8 @@ def get_nft_by_id_results(nft_id: int):
     encoded = ethereum.encode_function_call('get_nft_by_id(uint256)', [nft_id])
     res = ethereum.call_smart_contract(to=ethereum.result_storage_address, data=encoded)
     return ethereum.w3.to_int(res)
+
+
+def get_txn_data(txn_hash: str):
+    res = ethereum.w3.eth.get_transaction_receipt(txn_hash)
+    return res

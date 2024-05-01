@@ -69,3 +69,9 @@ async def get_last_minted_nft_results():
 async def get_nft_by_id_results(nft_id: int):
     result = handlers.get_nft_by_id_results(nft_id)
     return result
+
+
+@private_routes.get('/txn_data')
+async def get_txn_data(txn_hash: str):
+    result = handlers.get_txn_data(txn_hash)
+    return result
