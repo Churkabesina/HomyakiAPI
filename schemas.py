@@ -20,5 +20,5 @@ class ResultNftData(BaseModel):
 
 
 class NftStorage(BaseModel):
-    account: str
+    account: str = Field(examples=['0x0000000000000000000000000000000000000000000000000000000000000000'])
     storage: list[int]

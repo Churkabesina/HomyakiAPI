@@ -111,3 +111,15 @@ def refill_contract_balance(value: int):
     raw = ethereum.sign_smart_contract_txn(to=ethereum.result_storage_address, data=encoded, value=value, gas='0x7200')
     res = ethereum.send_raw_txn(raw)
     return res
+
+
+def get_last_minted_nft_results():
+    encoded = ethereum.encode_function_call('get_last_minted_nft()')
+    res = ethereum.call_smart_contract(to=ethereum.result_storage_address, data=encoded)
+    return ethereum.w3.to_int(res)
+
+
+def get_nft_by_id_results(nft_id: int):
+    encoded = ethereum.encode_function_call('get_nft_by_id(nft_id)', [nft_id])
+    res = ethereum.call_smart_contract(to=ethereum.result_storage_address, data=encoded)
+    return ethereum.w3.to_int(res)

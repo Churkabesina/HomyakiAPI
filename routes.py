@@ -57,3 +57,15 @@ async def get_results_contract_balance():
 async def refill_contract_balance(value: int):
     result = handlers.refill_contract_balance(value)
     return result
+
+
+@private_routes.get('/contract.last_minted_nft')
+async def get_last_minted_nft_results():
+    result = handlers.get_last_minted_nft_results()
+    return result
+
+
+@private_routes.get('/contract.nft_by_id')
+async def get_nft_by_id_results(nft_id: int):
+    result = handlers.get_nft_by_id_results(nft_id)
+    return result
