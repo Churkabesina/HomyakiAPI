@@ -104,6 +104,6 @@ def get_results_contract_balance():
 def refill_contract_balance(value: int):
     value = ethereum.w3.to_hex(value)
     encoded = ethereum.encode_function_call('refill_contract_balance()')
-    raw = ethereum.sign_smart_contract_txn(to=ethereum.result_storage_address, data=encoded, value=value)
+    raw = ethereum.sign_smart_contract_txn(to=ethereum.result_storage_address, data=encoded, value=value, gas='0x7200')
     res = ethereum.send_raw_txn(raw)
     return res
