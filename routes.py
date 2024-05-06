@@ -1,8 +1,26 @@
-from fastapi import APIRouter, types
+from fastapi import APIRouter, types, Depends, HTTPException
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from typing import Annotated
 import handlers
 import schemas
 
-private_routes = APIRouter(prefix='/api', tags=['All endpoints'])
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl='api/token')
+
+token_route = APIRouter(prefix='/api', tags=['Auth'])
+
+private_routes = APIRouter(prefix='/api', tags=['All endpoints'], dependencies=[Depends(oauth2_scheme)])
+
+
+@token_route.post('/token')
+async def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()]):
+    if form_data.username != 'admin' and form_data.password != 'admin123321':
+        raise HTTPException(status_code=400, detail='Incorrect username or password')
+    return {"access_token": '0xf5300ba9fdf0412e1d2bc130e5932ee7da688c2773c1867ce83f38724b030c2f', "token_type": "bearer"}
+
+
+@private_routes.post('/get.test')
+async def get_test():
+    return 'TEST PROIDEN'
 
 
 @private_routes.get('/account.balance')
@@ -43,7 +61,7 @@ async def mint_ye_play_nft(account_address: str, data: schemas.YEplayNftData):
 
 @private_routes.delete('/contract.withdraw_nft_value')
 async def withdraw_nft_value(account_address: str, nft_id: int):
-    result = handlers.withdraw_nft_value(account_address, nft_id)
+    result = await handlers.withdraw_nft_value(account_address, nft_id)
     return result
 
 
