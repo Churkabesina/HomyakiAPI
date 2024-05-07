@@ -87,16 +87,17 @@ def mint_ye_play_nft(address: str):
 
 
 def buy_ye_play_nft(address: str, value: int):
-    if get_account_balance(address) < value + 21098:
+    if get_account_balance(address) < value + 21186:
         return None
     private = db.core.get_private_by_address(address)
     if private:
         value = ethereum.w3.to_hex(value)
         private = private[0]
+        print((address, private))
         encoded = ethereum.encode_function_call('refill_contract_balance()')
         raw = ethereum.sign_smart_contract_txn(to=ethereum.ye_play_address,
                                                data=encoded,
-                                               gas='0x526A',
+                                               gas='0x7200',
                                                value=value,
                                                account_from=(address, private))
         res_pay = ethereum.send_raw_txn(raw)
