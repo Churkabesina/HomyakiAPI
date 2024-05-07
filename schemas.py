@@ -22,3 +22,8 @@ class ResultNftData(BaseModel):
 class NftStorage(BaseModel):
     account: str = Field(examples=['0x0000000000000000000000000000000000000000000000000000000000000000'])
     storage: list[int]
+
+
+class TxnStatus(BaseModel):
+    txn_hash: str = Field(examples=['0x0000000000000000000000000000000000000000000000000000000000000000'])
+    status: bool
