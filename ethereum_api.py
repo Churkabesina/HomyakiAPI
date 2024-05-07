@@ -10,7 +10,7 @@ class EthereumAPI:
         self.w3 = web3.Web3(web3.HTTPProvider(provider))
         self.main_account = main_account
         self.result_storage_address = '0x1d7B96802FdB4C3d409c6931Ea8e7A79418C787F'
-        self.ye_play_address = '0xACB25e176e7dF0ce2e096aA34bb2be7C916ff12C'
+        self.ye_play_address = '0x660A7f98214b02cDBe65559aD4EcB4dA08993c79'
 
     def sign_txn(self, to, value, gas, gas_price, account: tuple = None):
         if account:

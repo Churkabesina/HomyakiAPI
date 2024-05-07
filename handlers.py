@@ -93,7 +93,7 @@ def buy_ye_play_nft(address: str, value: int):
     if private:
         value = ethereum.w3.to_hex(value)
         private = private[0]
-        encoded = ethereum.encode_function_call('pay()')
+        encoded = ethereum.encode_function_call('refill_contract_balance()')
         raw = ethereum.sign_smart_contract_txn(to=ethereum.ye_play_address,
                                                data=encoded,
                                                gas='0x526A',
