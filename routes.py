@@ -70,9 +70,15 @@ async def withdraw_nft_value(account_address: str, nft_id: int):
     return result
 
 
-@private_routes.get('/contract.balance', tags=['Contract'])
+@private_routes.get('/contract.results_balance', tags=['Contract'])
 async def get_results_contract_balance():
     result = handlers.get_results_contract_balance()
+    return result
+
+
+@private_routes.get('/contract.ye_play_balance', tags=['Contract'])
+async def get_ye_play_contract_balance():
+    result = handlers.get_ye_play_contract_balance()
     return result
 
 

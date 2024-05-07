@@ -155,6 +155,12 @@ def get_results_contract_balance():
     return ethereum.w3.to_int(res)
 
 
+def get_ye_play_contract_balance():
+    encoded = ethereum.encode_function_call('get_contract_balance()')
+    res = ethereum.call_smart_contract(to=ethereum.ye_play_address, data=encoded)
+    return ethereum.w3.to_int(res)
+
+
 def refill_contract_balance(value: int):
     value = ethereum.w3.to_hex(value)
     encoded = ethereum.encode_function_call('refill_contract_balance()')
