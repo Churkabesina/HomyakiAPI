@@ -27,3 +27,16 @@ class NftStorage(BaseModel):
 class TxnStatus(BaseModel):
     txn_hash: str = Field(examples=['0x0000000000000000000000000000000000000000000000000000000000000000'])
     status: bool
+
+
+class MetaDataJson(BaseModel):
+    meta_data_uuid: str
+    is_played: bool
+
+
+class MintYePlayResponse(MetaDataJson):
+    txn_hash: str = Field(examples=['0x0000000000000000000000000000000000000000000000000000000000000000'])
+
+
+class BuyYePlayResponse(MintYePlayResponse):
+    pay_txn_hash: str = Field(examples=['0x0000000000000000000000000000000000000000000000000000000000000000'])

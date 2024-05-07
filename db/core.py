@@ -30,5 +30,12 @@ def update_account_balance(address: str, new_balance: int):
 def get_id_by_address(address: str):
     stmt = select(models.wallet.c.id).where(models.wallet.c.address == address)
     with engine.connect() as conn:
-        res = conn.execute(stmt).first()[0]
+        res = conn.execute(stmt).first()
+        return res
+
+
+def get_private_by_address(address: str):
+    stmt = select(models.wallet.c.key).where(models.wallet.c.address == address)
+    with engine.connect() as conn:
+        res = conn.execute(stmt).first()
         return res

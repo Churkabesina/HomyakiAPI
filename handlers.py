@@ -3,7 +3,8 @@ import db
 import ethereum_api
 from eth_abi import decode as abi_decode
 import json
-from multiprocessing import Process, Queue
+import uuid
+import os.path
 
 
 class Templates:
@@ -62,19 +63,64 @@ def grant_ether(address: str, amount: int):
     new_balance = old_balance + amount
     db.core.update_account_balance(address, new_balance)
     account_id = db.core.get_id_by_address(address)
-    res = {
-        'id': account_id,
-        'address': address,
-        'balance': new_balance
-    }
-    return res
+    if account_id:
+        res = {
+            'id': account_id[0],
+            'address': address,
+            'balance': new_balance
+        }
+        return res
+    return None
 
 
-def mint_ye_play_nft(address: str, data: str):
-    encoded = ethereum.encode_function_call('mint_nft(address,string)', [address, data])
+def mint_ye_play_nft(address: str):
+    meta_data_uuid = str(uuid.uuid4())
+    meta_data_path = os.path.join('./json_storage', meta_data_uuid + '.json')
+    encoded = ethereum.encode_function_call('mint_nft(address,string)', [address, meta_data_uuid])
     raw = ethereum.sign_smart_contract_txn(to=ethereum.ye_play_address, data=encoded, gas='0x200B20')
-    res = ethereum.send_raw_txn(raw)
+    txn_hash = ethereum.send_raw_txn(raw)
+    res = {
+        'meta_data_uuid': meta_data_uuid,
+        'is_played': False,
+        'txn_hash': txn_hash,
+
+    }
+    with open(meta_data_path, 'w', encoding='UTF-8') as f:
+        json.dump({'is_played': False}, f, indent=4)
     return res
+
+
+def buy_ye_play_nft(address: str, value: int):
+    if get_account_balance(address) + 21098 < value:
+        return None
+    private = db.core.get_private_by_address(address)
+    if private:
+        value = ethereum.w3.to_hex(text=str(value))
+        private = private[0]
+        encoded = ethereum.encode_function_call('pay()')
+        raw = ethereum.sign_smart_contract_txn(to=ethereum.ye_play_address,
+                                               data=encoded,
+                                               gas='0x526A',
+                                               value=value,
+                                               account_from=(address, private))
+        res_pay = ethereum.send_raw_txn(raw)
+        res_mint = mint_ye_play_nft(address)
+        res = {
+            'meta_data_uuid': res_mint.get('meta_data_uuid'),
+            'is_played': False,
+            'txn_hash': res_mint.get('txn_hash'),
+            'pay_txn_hash': res_pay
+        }
+        return res
+    return None
+
+
+def change_ye_play_json_status(meta_data_uuid: str, new_status: bool):
+    meta_data_path = os.path.join('./json_storage', meta_data_uuid + '.json')
+    new_json = {'is_played': new_status}
+    with open(meta_data_path, 'w', encoding='UTF-8') as f:
+        json.dump(new_json, f, indent=4)
+    return {'meta_data_uuid': meta_data_uuid, 'is_played': new_status}
 
 
 def mint_result_storage_nft(address: str, data: int):

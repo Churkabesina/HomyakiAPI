@@ -29,7 +29,7 @@ async def get_account_balance(account_address: str):
     return result
 
 
-@private_routes.put('/account.create', response_model=schemas.WalletPrivate)
+@private_routes.post('/account.create', response_model=schemas.WalletPrivate)
 async def create_account():
     result = handlers.create_account()
     return result
@@ -44,18 +44,34 @@ async def get_account_nft_storage(account_address: str):
 @private_routes.post('/account.grant_ether', response_model=schemas.Wallet)
 async def grant_ether(account_address: str, amount: int):
     result = handlers.grant_ether(account_address, amount)
+    if result is None:
+        raise HTTPException(status_code=403, detail='Account not found')
     return result
 
 
-@private_routes.post('/mint.result_storage_nft')
+@private_routes.post('/contract.mint.result_storage_nft')
 async def mint_result_storage_nft(account_address: str, data: schemas.ResultNftData):
     result = handlers.mint_result_storage_nft(account_address, data.data)
     return result
 
 
-@private_routes.post('/mint.ye_play_nft')
-async def mint_ye_play_nft(account_address: str, data: schemas.YEplayNftData):
-    result = handlers.mint_ye_play_nft(account_address, data.data)
+@private_routes.post('/contract.mint.ye_play_nft', response_model=schemas.MintYePlayResponse)
+async def mint_ye_play_nft(account_address: str):
+    result = handlers.mint_ye_play_nft(account_address)
+    return result
+
+
+@private_routes.post('/contract.buy_ye_play_nft', response_model=schemas.BuyYePlayResponse)
+async def buy_ye_play_nft(account_address: str, value: int):
+    result = handlers.buy_ye_play_nft(account_address, value)
+    if result is None:
+        raise HTTPException(status_code=403, detail='Account not found or insufficient funds')
+    return result
+
+
+@private_routes.post('/contract.change_ye_play_status', response_model=schemas.MetaDataJson)
+async def change_ye_play_json_status(account_address: str, new_status: bool):
+    result = handlers.change_ye_play_json_status(account_address, new_status)
     return result
 
 
