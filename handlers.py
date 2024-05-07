@@ -98,7 +98,7 @@ def withdraw_nft_value(address: str, nft_id: int):
     encoded = ethereum.encode_function_call('withdraw_nft_value(address,uint256)', [address, nft_id])
     raw = ethereum.sign_smart_contract_txn(to=ethereum.result_storage_address, data=encoded, gas='0x200B20')
     tx_hash = ethereum.send_raw_txn(raw)
-    status = ethereum.w3.eth.wait_for_transaction_receipt(tx_hash)
+    status = ethereum.w3.eth.wait_for_transaction_receipt(tx_hash)['status']
     return status
 
 
