@@ -61,7 +61,7 @@ async def mint_ye_play_nft(account_address: str, data: schemas.YEplayNftData):
 
 @private_routes.delete('/contract.withdraw_nft_value')
 async def withdraw_nft_value(account_address: str, nft_id: int):
-    result = await handlers.withdraw_nft_value(account_address, nft_id)
+    result = handlers.withdraw_nft_value(account_address, nft_id)
     return result
 
 

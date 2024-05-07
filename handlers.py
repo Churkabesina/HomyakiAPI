@@ -94,21 +94,12 @@ def get_account_nft_storage(address: str):
     return res
 
 
-async def withdraw_nft_value(address: str, nft_id: int):
+def withdraw_nft_value(address: str, nft_id: int):
     encoded = ethereum.encode_function_call('withdraw_nft_value(address,uint256)', [address, nft_id])
     raw = ethereum.sign_smart_contract_txn(to=ethereum.result_storage_address, data=encoded, gas='0x200B20')
     tx_hash = ethereum.send_raw_txn(raw)
-    q = Queue()
-    p = Process(target=wait_txn_receipt, args=(tx_hash, q))
-    p.start()
-    p.join()
-    status = q.get()
-    await status
-
-
-def wait_txn_receipt(tx_hash, q: Queue):
-    res = ethereum.w3.eth.get_transaction_receipt(tx_hash)
-    q.put(res)
+    status = ethereum.w3.eth.wait_for_transaction_receipt(tx_hash)
+    return status
 
 
 def get_results_contract_balance():
