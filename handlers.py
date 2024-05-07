@@ -87,7 +87,7 @@ def mint_ye_play_nft(address: str):
 
 
 def buy_ye_play_nft(address: str, value: int):
-    if get_account_balance(address) + 21098 < value:
+    if get_account_balance(address) < value + 21098:
         return None
     private = db.core.get_private_by_address(address)
     if private:
