@@ -84,7 +84,13 @@ async def get_ye_play_contract_balance():
 
 @private_routes.post('/contract.refill_balance', tags=['Contract'])
 async def refill_contract_balance(value: int):
-    result = handlers.refill_contract_balance(value)
+    result = handlers.refill_results_contract_balance(value)
+    return result
+
+
+@private_routes.post('/contract.refill_ye_play_balance', tags=['Contract'])
+async def refill_ye_play_balance(value: int):
+    result = handlers.refill_ye_play_contract_balance(value)
     return result
 
 
