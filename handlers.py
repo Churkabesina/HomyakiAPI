@@ -91,7 +91,7 @@ def buy_ye_play_nft(address: str, value: int):
         return None
     private = db.core.get_private_by_address(address)
     if private:
-        value = ethereum.w3.to_hex(text=str(value))
+        value = ethereum.w3.to_wei(value)
         private = private[0]
         encoded = ethereum.encode_function_call('pay()')
         raw = ethereum.sign_smart_contract_txn(to=ethereum.ye_play_address,
