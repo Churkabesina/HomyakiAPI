@@ -7,6 +7,11 @@ class Wallet(BaseModel):
     balance: int
 
 
+class WalletTemp(BaseModel):  # Temp, временный потому, что не могу отдать пока баланс во время, не успеваю за чейном
+    id: int
+    address: str = Field(examples=['0x0000000000000000000000000000000000000000'])
+
+
 class WalletPrivate(Wallet):
     key: str = Field(examples=['0x0000000000000000000000000000000000000000000000000000000000000000'])
 

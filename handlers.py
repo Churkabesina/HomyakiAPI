@@ -61,11 +61,9 @@ def grant_ether(address: str, amount: int):
         )
         data['params'] = [raw_hash.rawTransaction.hex()]
         requests.post(f'{Templates.ulr_local_node}', json=data, headers=Templates.headers)
-        new_balance = get_account_balance(address)
         res = {
             'id': account_id[0],
-            'address': address,
-            'balance': new_balance
+            'address': address
         }
         return res
     return None
