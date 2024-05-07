@@ -36,7 +36,7 @@ async def get_account_nft_storage(account_address: str):
     return result
 
 
-@private_routes.post('/account.grant_ether', response_model=schemas.Wallet, tags=['Account'])
+@private_routes.post('/account.grant_ether', response_model=schemas.WalletTemp, tags=['Account'])
 async def grant_ether(account_address: str, amount: int):
     result = handlers.grant_ether(account_address, amount)
     if result is None:
