@@ -18,30 +18,25 @@ async def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()]):
     return {"access_token": '0xf5300ba9fdf0412e1d2bc130e5932ee7da688c2773c1867ce83f38724b030c2f', "token_type": "bearer"}
 
 
-@private_routes.post('/get.test')
-async def get_test():
-    return 'TEST PROIDEN'
-
-
-@private_routes.get('/account.balance')
+@private_routes.get('/account.balance', tags=['Account'])
 async def get_account_balance(account_address: str):
     result = handlers.get_account_balance(account_address)
     return result
 
 
-@private_routes.post('/account.create', response_model=schemas.WalletPrivate)
+@private_routes.post('/account.create', response_model=schemas.WalletPrivate, tags=['Account'])
 async def create_account():
     result = handlers.create_account()
     return result
 
 
-@private_routes.get('/account.nft_storage', response_model=schemas.NftStorage)
+@private_routes.get('/account.nft_storage', response_model=schemas.NftStorage, tags=['Account'])
 async def get_account_nft_storage(account_address: str):
     result = handlers.get_account_nft_storage(account_address)
     return result
 
 
-@private_routes.post('/account.grant_ether', response_model=schemas.Wallet)
+@private_routes.post('/account.grant_ether', response_model=schemas.Wallet, tags=['Account'])
 async def grant_ether(account_address: str, amount: int):
     result = handlers.grant_ether(account_address, amount)
     if result is None:
@@ -49,19 +44,19 @@ async def grant_ether(account_address: str, amount: int):
     return result
 
 
-@private_routes.post('/contract.mint.result_storage_nft')
+@private_routes.post('/contract.mint.result_storage_nft', tags=['Contract'])
 async def mint_result_storage_nft(account_address: str, data: schemas.ResultNftData):
     result = handlers.mint_result_storage_nft(account_address, data.data)
     return result
 
 
-@private_routes.post('/contract.mint.ye_play_nft', response_model=schemas.MintYePlayResponse)
+@private_routes.post('/contract.mint.ye_play_nft', response_model=schemas.MintYePlayResponse, tags=['Contract'])
 async def mint_ye_play_nft(account_address: str):
     result = handlers.mint_ye_play_nft(account_address)
     return result
 
 
-@private_routes.post('/contract.buy_ye_play_nft', response_model=schemas.BuyYePlayResponse)
+@private_routes.post('/contract.buy_ye_play_nft', response_model=schemas.BuyYePlayResponse, tags=['Contract'])
 async def buy_ye_play_nft(account_address: str, value: int):
     result = handlers.buy_ye_play_nft(account_address, value)
     if result is None:
@@ -69,43 +64,48 @@ async def buy_ye_play_nft(account_address: str, value: int):
     return result
 
 
-@private_routes.post('/contract.change_ye_play_status', response_model=schemas.MetaDataJson)
-async def change_ye_play_json_status(account_address: str, new_status: bool):
-    result = handlers.change_ye_play_json_status(account_address, new_status)
-    return result
-
-
-@private_routes.delete('/contract.withdraw_nft_value', response_model=schemas.TxnStatus)
+@private_routes.delete('/contract.withdraw_nft_value', response_model=schemas.TxnStatus, tags=['Contract'])
 async def withdraw_nft_value(account_address: str, nft_id: int):
     result = handlers.withdraw_nft_value(account_address, nft_id)
     return result
 
 
-@private_routes.get('/contract.balance')
+@private_routes.get('/contract.balance', tags=['Contract'])
 async def get_results_contract_balance():
     result = handlers.get_results_contract_balance()
     return result
 
 
-@private_routes.post('/contract.refill_balance')
+@private_routes.post('/contract.refill_balance', tags=['Contract'])
 async def refill_contract_balance(value: int):
     result = handlers.refill_contract_balance(value)
     return result
 
 
-@private_routes.get('/contract.last_minted_nft')
+@private_routes.get('/contract.last_minted_nft', tags=['Contract'])
 async def get_last_minted_nft_results():
     result = handlers.get_last_minted_nft_results()
     return result
 
 
-@private_routes.get('/contract.nft_by_id')
+@private_routes.get('/contract.nft_by_id', tags=['Contract'])
 async def get_nft_by_id_results(nft_id: int):
     result = handlers.get_nft_by_id_results(nft_id)
     return result
 
 
-@private_routes.get('/txn_info', response_model=types.Dict)
+@private_routes.post('/change_ye_play_status', response_model=schemas.MetaDataJson, tags=['BezTega'])
+async def change_ye_play_json_status(account_address: str, new_status: bool):
+    result = handlers.change_ye_play_json_status(account_address, new_status)
+    return result
+
+
+@private_routes.get('/txn_info', response_model=types.Dict, tags=['BezTega'])
 async def get_txn_info(txn_hash: str):
     result = handlers.get_txn_info(txn_hash)
     return result
+
+
+@private_routes.post('/get.test', tags=['BezTega'])
+async def get_test():
+    return 'TEST PROIDEN'
