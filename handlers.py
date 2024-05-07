@@ -46,24 +46,22 @@ def create_account():
 
 
 def grant_ether(address: str, amount: int):
-    data = Templates.base_data
-    data['method'] = 'eth_sendRawTransaction'
-    raw_hash = ethereum.w3.eth.account.sign_transaction(
-        transaction_dict={'from': '0x8F15C8eDb2974485957909E6fEEfc53972664cEC',
-                          'to': address,
-                          'value': ethereum.w3.to_hex(amount),
-                          'nonce': ethereum.w3.eth.get_transaction_count(ethereum.w3.to_checksum_address('0x8F15C8eDb2974485957909E6fEEfc53972664cEC'), 'latest'),
-                          'gasPrice': '0x0',
-                          'gas': '0x5208'},
-        private_key='0x64205e253124acd904d403ef2627bda5a044efa63b5ced090f0f4e2f44bee6ec'
-    )
-    data['params'] = [raw_hash.rawTransaction.hex()]
-    requests.post(f'{Templates.ulr_local_node}', json=data, headers=Templates.headers)
-    old_balance = get_account_balance(address)
-    new_balance = old_balance + amount
-    db.core.update_account_balance(address, new_balance)
     account_id = db.core.get_id_by_address(address)
     if account_id:
+        data = Templates.base_data
+        data['method'] = 'eth_sendRawTransaction'
+        raw_hash = ethereum.w3.eth.account.sign_transaction(
+            transaction_dict={'from': '0x8F15C8eDb2974485957909E6fEEfc53972664cEC',
+                              'to': address,
+                              'value': ethereum.w3.to_hex(amount),
+                              'nonce': ethereum.w3.eth.get_transaction_count(ethereum.w3.to_checksum_address('0x8F15C8eDb2974485957909E6fEEfc53972664cEC'), 'latest'),
+                              'gasPrice': '0x0',
+                              'gas': '0x5208'},
+            private_key='0x64205e253124acd904d403ef2627bda5a044efa63b5ced090f0f4e2f44bee6ec'
+        )
+        data['params'] = [raw_hash.rawTransaction.hex()]
+        requests.post(f'{Templates.ulr_local_node}', json=data, headers=Templates.headers)
+        new_balance = get_account_balance(address)
         res = {
             'id': account_id[0],
             'address': address,
