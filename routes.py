@@ -95,8 +95,10 @@ async def get_nft_by_id_results(nft_id: int):
 
 
 @private_routes.post('/change_ye_play_status', response_model=schemas.MetaDataJson, tags=['BezTega'])
-async def change_ye_play_json_status(account_address: str, new_status: bool):
-    result = handlers.change_ye_play_json_status(account_address, new_status)
+async def change_ye_play_json_status(meta_data_uuid: str, new_status: bool):
+    result = handlers.change_ye_play_json_status(meta_data_uuid, new_status)
+    if result is None:
+        raise HTTPException(status_code=403, detail='Meta data uuid file not found')
     return result
 
 

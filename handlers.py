@@ -113,6 +113,8 @@ def buy_ye_play_nft(address: str, value: int):
 
 def change_ye_play_json_status(meta_data_uuid: str, new_status: bool):
     meta_data_path = os.path.join('./json_storage', meta_data_uuid + '.json')
+    if not os.path.isfile(meta_data_path):
+        return None
     new_json = {'is_played': new_status}
     with open(meta_data_path, 'w', encoding='UTF-8') as f:
         json.dump(new_json, f, indent=4)
