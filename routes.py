@@ -6,9 +6,10 @@ import schemas
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl='api/token')
 
-token_route = APIRouter(prefix='/api', tags=['Auth'])
 
-private_routes = APIRouter(prefix='/api', tags=['All endpoints'], dependencies=[Depends(oauth2_scheme)])
+private_routes = APIRouter(prefix='/api', dependencies=[Depends(oauth2_scheme)])
+
+token_route = APIRouter(prefix='/api', tags=['Auth'])
 
 
 @token_route.post('/token')
@@ -114,12 +115,12 @@ async def change_ye_play_json_status(meta_data_uuid: str, new_status: bool):
     return result
 
 
-@private_routes.get('/txn_info', response_model=types.Dict, tags=['BezTega'])
+@private_routes.get('/txn_info', response_model=types.Dict, tags=['2.Buying a game'])
 async def get_txn_info(txn_hash: str):
     result = handlers.get_txn_info(txn_hash)
     return result
 
 
-@private_routes.post('/get.test', tags=['BezTega'])
+@private_routes.post('/get.test', tags=['Test'])
 async def get_test():
     return 'TEST PROIDEN'
