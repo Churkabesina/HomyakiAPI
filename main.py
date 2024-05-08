@@ -23,7 +23,7 @@ tags_metadata = [
     }
 ]
 
-app = FastAPI(title='Validium-test-net.API')
+app = FastAPI(title='Validium-test-net.API', tags_metadata=tags_metadata)
 
 app.include_router(private_routes)
 
