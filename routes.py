@@ -18,25 +18,25 @@ async def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()]):
     return {"access_token": '0xf5300ba9fdf0412e1d2bc130e5932ee7da688c2773c1867ce83f38724b030c2f', "token_type": "bearer"}
 
 
-@private_routes.get('/account.balance', tags=['Account'])
+@private_routes.get('/account.balance', tags=['1.Account'])
 async def get_account_balance(account_address: str):
     result = handlers.get_account_balance(account_address)
     return result
 
 
-@private_routes.post('/account.create', response_model=schemas.WalletPrivate, tags=['Account'])
+@private_routes.post('/account.create', response_model=schemas.WalletPrivate, tags=['1.Account'])
 async def create_account():
     result = handlers.create_account()
     return result
 
 
-@private_routes.get('/account.nft_storage', response_model=schemas.NftStorage, tags=['Account'])
+@private_routes.get('/account.nft_storage', response_model=schemas.NftStorage, tags=['1.Account'])
 async def get_account_nft_storage(account_address: str):
     result = handlers.get_account_nft_storage(account_address)
     return result
 
 
-@private_routes.post('/account.grant_ether', response_model=schemas.WalletTemp, tags=['Account'])
+@private_routes.post('/account.grant_ether', response_model=schemas.WalletTemp, tags=['1.Account'])
 async def grant_ether(account_address: str, amount: int):
     result = handlers.grant_ether(account_address, amount)
     if result is None:
@@ -44,19 +44,19 @@ async def grant_ether(account_address: str, amount: int):
     return result
 
 
-@private_routes.post('/contract.mint.result_storage_nft', tags=['Contract'])
+@private_routes.post('/contract.mint.result_storage_nft', tags=['Contract', '3.WinNFT'])
 async def mint_result_storage_nft(account_address: str, data: schemas.ResultNftData):
     result = handlers.mint_result_storage_nft(account_address, data.data)
     return result
 
 
-@private_routes.post('/contract.mint.ye_play_nft', response_model=schemas.MintYePlayResponse, tags=['Contract'])
+@private_routes.post('/contract.mint.ye_play_nft', response_model=schemas.MintYePlayResponse, tags=['Contract', '2.Buying a game'])
 async def mint_ye_play_nft(account_address: str):
     result = handlers.mint_ye_play_nft(account_address)
     return result
 
 
-@private_routes.post('/contract.buy_ye_play_nft', response_model=schemas.BuyYePlayResponse, tags=['Contract'])
+@private_routes.post('/contract.buy_ye_play_nft', response_model=schemas.BuyYePlayResponse, tags=['Contract', '2.Buying a game'])
 async def buy_ye_play_nft(account_address: str, value: int):
     result = handlers.buy_ye_play_nft(account_address, value)
     if result is None:
@@ -64,7 +64,7 @@ async def buy_ye_play_nft(account_address: str, value: int):
     return result
 
 
-@private_routes.delete('/contract.withdraw_nft_value', response_model=schemas.TxnStatus, tags=['Contract'])
+@private_routes.delete('/contract.withdraw_nft_value', response_model=schemas.TxnStatus, tags=['Contract', '4.Vending machine'])
 async def withdraw_nft_value(account_address: str, nft_id: int):
     result = handlers.withdraw_nft_value(account_address, nft_id)
     return result
@@ -106,7 +106,7 @@ async def get_nft_by_id_results(nft_id: int):
     return result
 
 
-@private_routes.post('/change_ye_play_status', response_model=schemas.MetaDataJson, tags=['BezTega'])
+@private_routes.post('/change_ye_play_status', response_model=schemas.MetaDataJson, tags=['2.Buying a game'])
 async def change_ye_play_json_status(meta_data_uuid: str, new_status: bool):
     result = handlers.change_ye_play_json_status(meta_data_uuid, new_status)
     if result is None:
