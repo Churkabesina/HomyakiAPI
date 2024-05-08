@@ -93,7 +93,6 @@ def buy_ye_play_nft(address: str, value: int):
     if private:
         value = ethereum.w3.to_hex(value)
         private = private[0]
-        print((address, private))
         encoded = ethereum.encode_function_call('refill_contract_balance()')
         raw = ethereum.sign_smart_contract_txn(to=ethereum.ye_play_address,
                                                data=encoded,
@@ -170,12 +169,12 @@ def refill_results_contract_balance(value: int):
     return res
 
 
-def refill_ye_play_contract_balance(value: int):
-    value = ethereum.w3.to_hex(value)
-    encoded = ethereum.encode_function_call('refill_contract_balance()')
-    raw = ethereum.sign_smart_contract_txn(to=ethereum.ye_play_address, data=encoded, value=value, gas='0x7200')
-    res = ethereum.send_raw_txn(raw)
-    return res
+# def refill_ye_play_contract_balance(value: int):
+#     value = ethereum.w3.to_hex(value)
+#     encoded = ethereum.encode_function_call('refill_contract_balance()')
+#     raw = ethereum.sign_smart_contract_txn(to=ethereum.ye_play_address, data=encoded, value=value, gas='0x7200')
+#     res = ethereum.send_raw_txn(raw)
+#     return res
 
 
 def get_last_minted_nft_results():
