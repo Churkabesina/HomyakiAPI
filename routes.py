@@ -71,19 +71,19 @@ async def withdraw_nft_value(account_address: str, nft_id: int):
     return result
 
 
-@private_routes.get('/contract.results_balance')
+@private_routes.get('/contract.results_balance', tags=['4.Vending machine'])
 async def get_results_contract_balance():
     result = handlers.get_results_contract_balance()
     return result
 
 
-@private_routes.get('/contract.ye_play_balance')
+@private_routes.get('/contract.ye_play_balance', tags=['2.Buying a game'])
 async def get_ye_play_contract_balance():
     result = handlers.get_ye_play_contract_balance()
     return result
 
 
-@private_routes.post('/contract.refill_balance')
+@private_routes.post('/contract.refill_balance', tags=['4.Vending machine'])
 async def refill_contract_balance(value: int):
     result = handlers.refill_results_contract_balance(value)
     return result
@@ -95,13 +95,13 @@ async def refill_contract_balance(value: int):
 #     return result
 
 
-@private_routes.get('/contract.last_minted_nft')
+@private_routes.get('/contract.last_minted_nft', tags=['3.WinNFT'])
 async def get_last_minted_nft_results():
     result = handlers.get_last_minted_nft_results()
     return result
 
 
-@private_routes.get('/contract.nft_by_id')
+@private_routes.get('/contract.nft_by_id', tags=['3.WinNFT'])
 async def get_nft_by_id_results(nft_id: int):
     result = handlers.get_nft_by_id_results(nft_id)
     return result
