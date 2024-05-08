@@ -5,6 +5,7 @@ from db.core import __create_db
 tags_metadata = [
     {
         'name': 'Auth',
+        "description": "С ПОМОЩЬЮ ЭТОГО МЕТОДА МОЖНО ПОЛУЧИТЬ ТОКЕН"
     },
     {
         'name': '1.Account'
