@@ -37,11 +37,11 @@ class TxnStatus(BaseModel):
 class MetaDataJson(BaseModel):
     meta_data_uuid: str
     is_played: bool = Field(examples=[False])
-    data: str
 
 
 class MintYePlayResponse(MetaDataJson):
     txn_hash: str = Field(examples=['0x0000000000000000000000000000000000000000000000000000000000000000'])
+    data: str
 
 
 class BuyYePlayResponse(MintYePlayResponse):
