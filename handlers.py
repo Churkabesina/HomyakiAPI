@@ -69,7 +69,7 @@ def grant_ether(address: str, amount: int):
     return None
 
 
-def mint_ye_play_nft(address: str):
+def mint_ye_play_nft(address: str, data: str):
     meta_data_uuid = str(uuid.uuid4())
     meta_data_path = os.path.join('./json_storage', meta_data_uuid + '.json')
     encoded = ethereum.encode_function_call('mint_nft(address,string)', [address, meta_data_uuid])
@@ -78,15 +78,20 @@ def mint_ye_play_nft(address: str):
     res = {
         'meta_data_uuid': meta_data_uuid,
         'is_played': False,
+        'data': data,
         'txn_hash': txn_hash,
 
     }
+    json_obj = {
+        'is_played': False,
+        'data': data
+    }
     with open(meta_data_path, 'w', encoding='UTF-8') as f:
-        json.dump({'is_played': False}, f, indent=4)
+        json.dump(json_obj, f, indent=4)
     return res
 
 
-def buy_ye_play_nft(address: str, value: int):
+def buy_ye_play_nft(address: str, value: int, data: str):
     if get_account_balance(address) < value + 21186:
         return None
     private = db.core.get_private_by_address(address)
@@ -100,10 +105,11 @@ def buy_ye_play_nft(address: str, value: int):
                                                value=value,
                                                account_from=(address, private))
         res_pay = ethereum.send_raw_txn(raw)
-        res_mint = mint_ye_play_nft(address)
+        res_mint = mint_ye_play_nft(address, data)
         res = {
             'meta_data_uuid': res_mint.get('meta_data_uuid'),
             'is_played': False,
+            'data': data,
             'txn_hash': res_mint.get('txn_hash'),
             'pay_txn_hash': res_pay
         }
@@ -115,9 +121,10 @@ def change_ye_play_json_status(meta_data_uuid: str, new_status: bool):
     meta_data_path = os.path.join('./json_storage', meta_data_uuid + '.json')
     if not os.path.isfile(meta_data_path):
         return None
-    new_json = {'is_played': new_status}
-    with open(meta_data_path, 'w', encoding='UTF-8') as f:
-        json.dump(new_json, f, indent=4)
+    with open(meta_data_path, 'r+', encoding='UTF-8') as f:
+        read_json = json.load(f)
+        read_json['is_played'] = new_status
+        json.dump(read_json, f, indent=4)
     return {'meta_data_uuid': meta_data_uuid, 'is_played': new_status}
 
 

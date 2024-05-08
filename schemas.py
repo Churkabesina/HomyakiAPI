@@ -37,6 +37,7 @@ class TxnStatus(BaseModel):
 class MetaDataJson(BaseModel):
     meta_data_uuid: str
     is_played: bool = Field(examples=[False])
+    data: str
 
 
 class MintYePlayResponse(MetaDataJson):

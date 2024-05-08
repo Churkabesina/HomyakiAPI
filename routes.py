@@ -52,14 +52,14 @@ async def mint_result_storage_nft(account_address: str, data: schemas.ResultNftD
 
 
 @private_routes.post('/contract.mint.ye_play_nft', response_model=schemas.MintYePlayResponse, tags=['2.Buying a game'])
-async def mint_ye_play_nft(account_address: str):
-    result = handlers.mint_ye_play_nft(account_address)
+async def mint_ye_play_nft(account_address: str, data: schemas.YEplayNftData):
+    result = handlers.mint_ye_play_nft(account_address, data.data)
     return result
 
 
 @private_routes.post('/contract.buy_ye_play_nft', response_model=schemas.BuyYePlayResponse, tags=['2.Buying a game'])
-async def buy_ye_play_nft(account_address: str, value: int):
-    result = handlers.buy_ye_play_nft(account_address, value)
+async def buy_ye_play_nft(account_address: str, value: int, data: schemas.YEplayNftData):
+    result = handlers.buy_ye_play_nft(account_address, value, data.data)
     if result is None:
         raise HTTPException(status_code=403, detail='Account not found or insufficient funds')
     return result
