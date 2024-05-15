@@ -131,7 +131,7 @@ def change_ye_play_json_status(meta_data_uuid: str, new_status: bool):
 
 def check_ye_play_json_status(meta_data_uuid: str):
     meta_data_path = os.path.join('./json_storage', meta_data_uuid + '.json')
-    if os.path.isfile(meta_data_path):
+    if not os.path.isfile(meta_data_path):
         return None
     with open(meta_data_path, 'r', encoding='UTF-8') as f:
         read_json = json.load(f)
