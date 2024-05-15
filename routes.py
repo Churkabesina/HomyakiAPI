@@ -115,6 +115,14 @@ async def change_ye_play_json_status(meta_data_uuid: str, new_status: bool):
     return result
 
 
+@private_routes.get('/check_ye_play_status', response_model=schemas.MetaDataJsonCheck, tags=['2.Buying a game'])
+async def check_ye_play_json_status(meta_data_uuid: str):
+    result = handlers.check_ye_play_json_status(meta_data_uuid)
+    if result is None:
+        raise HTTPException(status_code=403, detail='Meta data uuid file not found')
+    return result
+
+
 @private_routes.get('/txn_info', response_model=types.Dict, tags=['2.Buying a game'])
 async def get_txn_info(txn_hash: str):
     result = handlers.get_txn_info(txn_hash)

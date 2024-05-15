@@ -39,6 +39,12 @@ class MetaDataJson(BaseModel):
     is_played: bool = Field(examples=[False])
 
 
+class MetaDataJsonCheck(MetaDataJson):
+    meta_data_uuid: str
+    is_played: bool = Field(examples=[False])
+    content: str
+
+
 class MintYePlayResponse(MetaDataJson):
     txn_hash: str = Field(examples=['0x0000000000000000000000000000000000000000000000000000000000000000'])
     data: str

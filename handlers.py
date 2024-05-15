@@ -129,6 +129,16 @@ def change_ye_play_json_status(meta_data_uuid: str, new_status: bool):
     return {'meta_data_uuid': meta_data_uuid, 'is_played': new_status}
 
 
+def check_ye_play_json_status(meta_data_uuid: str):
+    meta_data_path = os.path.join('./json_storage', meta_data_uuid + '.json')
+    if os.path.isfile(meta_data_path):
+        return None
+    with open(meta_data_path, 'r', encoding='UTF-8') as f:
+        read_json = json.load(f)
+        read_json['meta_data_uuid'] = meta_data_uuid
+    return read_json
+
+
 def mint_result_storage_nft(address: str, data: int):
     encoded = ethereum.encode_function_call('mint_nft(address,uint256)', [address, data])
     raw = ethereum.sign_smart_contract_txn(to=ethereum.result_storage_address, data=encoded, gas='0x200B20')
