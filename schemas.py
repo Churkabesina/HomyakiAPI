@@ -40,9 +40,7 @@ class MetaDataJson(BaseModel):
 
 
 class MetaDataJsonCheck(MetaDataJson):
-    meta_data_uuid: str
-    is_played: bool = Field(examples=[False])
-    content: str
+    data: str
 
 
 class MintYePlayResponse(MetaDataJson):
